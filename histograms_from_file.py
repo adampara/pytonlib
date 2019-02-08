@@ -31,7 +31,7 @@ def ldir(dirname,MyFile, Sel_Dir='',debug=False):
 
         if debug:
             print '  =======  Key found  ',key.GetName(),key.GetClassName()
-        if(key.GetClassName() == 'TH1F'):
+        if(key.GetClassName() == 'TH1F' or key.GetClassName() == 'TH2F' or key.GetClassName() == 'TProfile'):
             #  check if this directory is selected
             if len(Sel_Dir) < 1 or (
                 len(Sel_Dir)>1 and savdir.split('/')[-1] == Sel_Dir):
@@ -39,13 +39,16 @@ def ldir(dirname,MyFile, Sel_Dir='',debug=False):
 
                 # below is an example of accessing a tree.
         if  key.GetClassName() == 'TTree':
-             print '    Class = ', key.GetClassName()
-             tree = MyFile.Get(key.GetName())
-             print tree
-
+             tree = MyFile.Get(key.GetName())             
              branches =  tree.GetListOfBranches()
-             print '  branches ',branches
-             print branches.GetEntries()
+             
+             if debug:
+                 print '    Class = ', key.GetClassName()
+                 print '   --- tree    ---\n',tree
+
+
+                 print '  ----branches----- \n',branches
+                 print branches.GetEntries()
 
              for i in range(0,branches.GetEntries()):
                  branch = branches.At(i)

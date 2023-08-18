@@ -5,7 +5,9 @@ Created on Sun Oct 14 15:33:36 2018
 
 @author: para
 """
+from __future__ import print_function
 
+from builtins import zip
 import numpy as np
 from math import sqrt
 
@@ -19,11 +21,10 @@ def weighted_avg_and_std(values, weights, debug=False):
 
     if debug: 
         name = '     =====   weighted_avg_and_std  '
-        print values
-        print weights
-        print name, '   input arrays'
+        print(name, '  sum of weights  ', np.sum(weights))
+        print(name, '   input arrays')
         for x,y in zip(values, weights):
-            print x,y
+            print(x,y)
             
     if np.sum(weights) > 0:
         average = np.average(values, weights=weights)
@@ -35,6 +36,7 @@ def weighted_avg_and_std(values, weights, debug=False):
 
     if debug: 
 
-        print name, '   weighted mean  ',average,'  sigma  ',std
+        print(name, '   weighted mean  ',average,'  sigma  ',std, '  variance  ',variance)
+
         
     return (average, std)        

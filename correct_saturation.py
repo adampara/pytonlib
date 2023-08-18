@@ -5,6 +5,9 @@ Created on Fri Dec 14 17:21:59 2018
 
 @author: para
 """
+from __future__ import division
+from __future__ import print_function
+from past.utils import old_div
 import numpy as np
 from right_edge import right_edge, right_edge_new, right_edge_new_new
 from peak_in_waveform import peak_in_waveform
@@ -27,7 +30,7 @@ def correct_saturation( wave_fin, tau, accept=0.1, debug=False, tim_lev=0):
     tim_lev_cut = 2
 
     if tim_lev > tim_lev_cut: check_time(name, '  begin  ')    
-    if debug: print name, '  begin'
+    if debug: print(name, '  begin')
     wf_corr,bs =  ac_coupl(wave_fin,tau ) 
     if tim_lev > tim_lev_cut: check_time(name, '  deconvoluted  ')  
     
@@ -43,33 +46,33 @@ def correct_saturation( wave_fin, tau, accept=0.1, debug=False, tim_lev=0):
      
     max_pos = np.argmax(wf_corr[:-guard])                 
     if debug:
-        print name,'  maximum at the position ',max_pos
+        print(name,'  maximum at the position ',max_pos)
         
 
     if tim_lev > tim_lev_cut: check_time(name, '  look for long pulses ')  
 
     pulse_end = right_edge_new_new(wf_corr[:-guard],cut=50,debug=debug)
-    if debug: print name, 'pulse_end ',pulse_end
+    if debug: print(name, 'pulse_end ',pulse_end)
     if tim_lev > tim_lev_cut: check_time(name, '  pulses characterized  ')  
     
     if debug:
-        print name,'  pulse end ',pulse_end
+        print(name,'  pulse end ',pulse_end)
 
     stat,bl_shift = peak_in_waveform(wf_corr[pulse_end:pulse_end+1000],debug=False) 
     if tim_lev > tim_lev_cut: check_time(name, '  baseline shift determined ')  
     
     if debug or stat != 0:
-        print '  correct_saturation  :  initial  -bl_shift, stat  ', bl_shift, stat
+        print('  correct_saturation  :  initial  -bl_shift, stat  ', bl_shift, stat)
 
     if abs(bl_shift) > accept or stat !=0:    #  small baseline shift  or catastrophic fiure   
         
         x1 = 0
         y1 = bl_shift
-        satur_c = bl_shift * exp(tau*(pulse_end + 500 - max_pos))/tau 
+        satur_c = old_div(bl_shift * exp(tau*(pulse_end + 500 - max_pos)),tau) 
     
         if debug:
-            print name, ' position of the maximum, end of the pulse ',max_pos, pulse_end
-            print name, '  bl_shift, stat, satur_c  ', bl_shift, stat, satur_c
+            print(name, ' position of the maximum, end of the pulse ',max_pos, pulse_end)
+            print(name, '  bl_shift, stat, satur_c  ', bl_shift, stat, satur_c)
         sh0 = - 0.3 * satur_c
         stat,bs0,wf_corr_s = saturation_corr(wave_fin,max_pos,pulse_end,sh0,tau) 
 
@@ -99,15 +102,15 @@ def correct_saturation( wave_fin, tau, accept=0.1, debug=False, tim_lev=0):
                 y2 = bs1
                 x2 = sh1   
 
-        a = (y2-y1)/(x2-x1)
+        a = old_div((y2-y1),(x2-x1))
         b = y1 - a*x1
-        shift = -b/a
+        shift = old_div(-b,a)
            
         stat,bs,wf_corr_s = saturation_corr(wave_fin,max_pos,pulse_end,shift,tau) 
         if debug:
-            print name,'  final correction of the waveform  ',shift
-            print '  correct_saturation  :  position of the maximum, end of the pulse ',max_pos, pulse_end
-            print '  correct_saturation  :  bl_shift, stat, satur_c  ', bl_shift, stat, satur_c
+            print(name,'  final correction of the waveform  ',shift)
+            print('  correct_saturation  :  position of the maximum, end of the pulse ',max_pos, pulse_end)
+            print('  correct_saturation  :  bl_shift, stat, satur_c  ', bl_shift, stat, satur_c)
 
     else:
         bs=bl_shift
@@ -149,11 +152,11 @@ def correct_saturation_old( wave_fin, tau, accept=0.5, debug=False):
     stat,bl_shift = peak_in_waveform(wf_corr[pulse_end:pulse_end+1000],debug=False) 
 
     if abs(bl_shift) > accept:      
-        satur_c = bl_shift * exp(tau*(pulse_end + 500 - max_pos))/tau 
+        satur_c = old_div(bl_shift * exp(tau*(pulse_end + 500 - max_pos)),tau) 
     
         if debug:
-            print name, ' position of the maximum, end of the pulse ',max_pos, pulse_end
-            print name, '  bl_shift, stat, satur_c  ', bl_shift, stat, satur_c
+            print(name, ' position of the maximum, end of the pulse ',max_pos, pulse_end)
+            print(name, '  bl_shift, stat, satur_c  ', bl_shift, stat, satur_c)
         sh0 = - 0.3 * satur_c
         stat,bs0,wf_corr_s = saturation_corr(wave_fin,max_pos,pulse_end,sh0,tau) 
      
@@ -162,16 +165,16 @@ def correct_saturation_old( wave_fin, tau, accept=0.5, debug=False):
         else:
             if abs(bs0)<abs(bl_shift):
                 step = abs(bl_shift)-abs(bs0)
-                nstep = 1 + abs(bl_shift)/step
+                nstep = 1 + old_div(abs(bl_shift),step)
                 sh1 = sh0 * nstep
                 stat,bs1,wf_corr_s = saturation_corr(wave_fin,max_pos,pulse_end,sh1,tau) 
                 if bl_shift*bs1<0:
                     bs0 = bs1
                     sh0 = sh1
                 else:
-                    print 'correct saturation: odd.. should not have reached that'
-                    print '  correct_saturation  :  position of the maximum, end of the pulse ',max_pos, pulse_end
-                    print '  correct_saturation  :  bl_shift, stat, satur_c  ', bl_shift, stat, satur_c
+                    print('correct saturation: odd.. should not have reached that')
+                    print('  correct_saturation  :  position of the maximum, end of the pulse ',max_pos, pulse_end)
+                    print('  correct_saturation  :  bl_shift, stat, satur_c  ', bl_shift, stat, satur_c)
  
                     plt.figure()
                     plt.plot(wave_fin)
@@ -180,15 +183,15 @@ def correct_saturation_old( wave_fin, tau, accept=0.5, debug=False):
                     plt.title('corerct_saturation, original and final waveforms')
                     plt.show()
     
-        a = (bl_shift-bs0)/(0-sh0)
+        a = old_div((bl_shift-bs0),(0-sh0))
         b = bs0 - a*sh0
-        shift = -b/a
+        shift = old_div(-b,a)
     
                 
         stat,bs,wf_corr_s = saturation_corr(wave_fin,max_pos,pulse_end,shift,tau) 
         if debug:
-            print '  correct_saturation  :  position of the maximum, end of the pulse ',max_pos, pulse_end
-            print '  correct_saturation  :  bl_shift, stat, satur_c  ', bl_shift, stat, satur_c
+            print('  correct_saturation  :  position of the maximum, end of the pulse ',max_pos, pulse_end)
+            print('  correct_saturation  :  bl_shift, stat, satur_c  ', bl_shift, stat, satur_c)
 
     else:
         bs=bl_shift
@@ -214,7 +217,7 @@ def correct_saturation_v2( wave_fin, tau, accept=0.1, S2_beg=640, S2_end=660, de
 
     name = '                          --->  correct_saturation_v2:  '
     tim_lev_cut = 2
-    if debug: print name, '  begin'
+    if debug: print(name, '  begin')
     
     if tim_lev > tim_lev_cut: check_time(name, '  begin  ')    
     wf_corr,bs =  ac_coupl(wave_fin,tau ) 
@@ -257,7 +260,7 @@ def correct_saturation_v2( wave_fin, tau, accept=0.1, S2_beg=640, S2_end=660, de
     
     if tim_lev > tim_lev_cut: check_time(name, '  baseline shift determined 2')  
 
-    if debug:  print name, 'baseline shifts  ', bl_2  ,'  S2_end  ',S2_end  
+    if debug:  print(name, 'baseline shifts  ', bl_2  ,'  S2_end  ',S2_end)  
 
 #
 #    bl_shift = bl_2

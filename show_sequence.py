@@ -5,6 +5,9 @@ Created on Wed Dec 19 11:37:24 2018
 
 @author: para
 """
+from __future__ import print_function
+from builtins import str
+from builtins import range
 import matplotlib.pyplot as plt
 
 def show_sequence(first,last,ts_x,ts_y,ts_e, delay=100, debug=False):
@@ -24,13 +27,15 @@ def show_sequence(first,last,ts_x,ts_y,ts_e, delay=100, debug=False):
             else:
                 max_h = 0
                 
-            print name, '  time slice ',ts,'  nmber of hits = ', nhits, '  total energy ', sum(ts_e[ts]), ' max hit ',max_h
+            print(name, '  time slice ',ts,'  nmber of hits = ', nhits, '  total energy ', sum(ts_e[ts]), ' max hit ',max_h)
 
         plt.clf()
         plt.scatter(ts_x[ts],ts_y[ts],s=50*ts_e[ts])
-        plt.title('zslice '+str(ts))
+        title = 'zslice '+str(ts)
+        plt.title(title)
         plt.xlim([-250, 250])
         plt.ylim([-250, 250])
         plt.draw()
+        plt.savefig(title + '.png')
         plt.pause(0.001*delay)
      plt.show()

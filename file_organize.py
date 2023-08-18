@@ -5,6 +5,7 @@ Created on Tue Oct  3 19:16:49 2017
 Organize files in a directory by years/months 
 @author: para
 """
+from __future__ import print_function
 
 from os import listdir
 from os.path import isfile, join
@@ -30,21 +31,21 @@ month = {
 
 
 lfil = [f for f in listdir(direct) if isfile(join(direct, f))]
-print lfil
+print(lfil)
 
 fil_sel = []
 dates = []
 for f in lfil:
-    print f, f[0:len(beg)], f[-len(ext):]
+    print(f, f[0:len(beg)], f[-len(ext):])
     if f[0:len(beg)] != beg or f[-len(ext):] != ext:
         continue
     fil_sel.append(f)
     tok = f.split('-')
     dates.append(f[4:15])
 
-print dates    
+print(dates)    
 ds = sorted(dates, key=lambda x: datetime.datetime.strptime(x, '%Y-%b-%d'))
-print ds
+print(ds)
 
 oy = ''
 file_name = direct + 'overview.html'
@@ -63,15 +64,15 @@ for d in ds:
     y = d[0:4]
     m = d[5:8]
     day = d[9:11]
-    print y,m,day
+    print(y,m,day)
     if y !=oy:
         oy = y
-        print 'new year ', y
+        print('new year ', y)
         fn.write('<h2> Year '+ y + '</h2>')
         om = ''
     if m != om:
         om = m
-        print 'new month ',m
+        print('new month ',m)
         fn.write('<h3>' + m + '</h3>')
     
 

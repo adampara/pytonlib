@@ -5,10 +5,15 @@ Created on Wed Jul  4 09:49:38 2018
 
 @author: para
 """
+from __future__ import print_function
+from builtins import zip
+from builtins import range
 import numpy as np
 import matplotlib.pyplot as plt
 
-def fitpol(xr,yr, deg, dyr, plot=False, title='polynomial fit', xcut = -9999., maxcut = 9999., debug = False, xint=0):
+def fitpol(xr,yr, deg, dyr, plot=False, title='polfit fit', xcut = -9999., 
+           maxcut = 999999., debug = False, xint=0,
+           x_ax_lab='', y_ax_lab=''):
     """
     Fit polynomial of a degreee deg
     limit the fitted range to be within [xcut,maxcut] range
@@ -16,9 +21,9 @@ def fitpol(xr,yr, deg, dyr, plot=False, title='polynomial fit', xcut = -9999., m
     """
     
     if debug:
-        print 'fit polynomial of ',deg,' degree. Data to be fitted'
-        for xf,yf,df in zip(xr,yr,dyr):
-            print '     x, y, dy   =  ', xf, yf, df
+        print('fit polynomial of ',deg,' degree. Data to be fitted')
+        for xf,yf in zip(xr,yr):
+            print('     x, y   =  ', xf, yf)
             
     #  remove data below xcut
 
@@ -36,7 +41,7 @@ def fitpol(xr,yr, deg, dyr, plot=False, title='polynomial fit', xcut = -9999., m
             y.append(yf)
             dy.append(dyf)
         else:
-            print ' Data discarded, out of requested range, x,y,dy = ', xf, yf, dyf
+            print(' Data discarded, out of requested range, x,y,dy = ', xf, yf, dyf)
         
     #  convert to numpy arrays 
     x = np.asarray(x,dtype=np.float64)
@@ -55,8 +60,8 @@ def fitpol(xr,yr, deg, dyr, plot=False, title='polynomial fit', xcut = -9999., m
             
         if debug:
             
-            print 'fitpol:   fit results       ', fitr
-            print '          covariance matrix ', cov
+            print('fitpol:   fit results       ', fitr)
+            print('          covariance matrix ', cov)
         
         fitf = x*0.0
         for p in range(deg+1):
@@ -66,10 +71,12 @@ def fitpol(xr,yr, deg, dyr, plot=False, title='polynomial fit', xcut = -9999., m
             plt.errorbar(x,y,yerr=dy,fmt="*")
             plt.plot(x,fitf)
             plt.title(title)
+            plt.xlabel(x_ax_lab)
+            plt.ylabel(y_ax_lab)
             plt.grid()
             plt.show()
     else:
-        print ' insufficient data to fit, return [0,0] as fit results'
+        print(' insufficient data to fit, return [0,0] as fit results')
         
         fitr = [0,0]
         fitf = [-1]

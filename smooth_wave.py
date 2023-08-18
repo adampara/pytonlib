@@ -4,7 +4,10 @@ Created on Fri Jan  6 17:47:48 2017
 
 @author: para
 """
+from __future__ import division
 
+from builtins import range
+from past.utils import old_div
 import numpy as np
 
 
@@ -21,7 +24,7 @@ def smooth_wave(wf, nsmooth):
         nl = max(0,i-nsmooth)
         nu = min(lenwf-1,i+nsmooth)
 
-        nwfm[i] = sum(wf[nl:nu])/(nu-nl)   
+        nwfm[i] = old_div(sum(wf[nl:nu]),(nu-nl))   
         
     return nwfm
 
@@ -43,7 +46,7 @@ def smooth_wave_nzero(wf, nsmooth):
         
         nz = np.count_nonzero(wf[nl:nu])   
         if nz > 0:
-            nwfm[i] = sumval/nz
+            nwfm[i] = old_div(sumval,nz)
         else:
             nwfm[i] = 0
             

@@ -5,6 +5,7 @@ Created on Sat Dec 15 18:58:46 2018
 
 @author: para
 """
+from __future__ import print_function
 import numpy as np
 from weighted_avg_and_std import weighted_avg_and_std
 
@@ -16,9 +17,9 @@ def single_pe_char(wave,ind_peaks,h_width,neigh,debug=False):
 
     name = 'single_pe_char'
 
-    if debug: print name
+    if debug: print(name)
     time = np.linspace(-h_width, h_width, num=2*h_width+1) 
-    if debug:  print 'time ',time
+    if debug:  print('time ',time)
  
     charge = []
     t_stamp = []
@@ -39,8 +40,8 @@ def single_pe_char(wave,ind_peaks,h_width,neigh,debug=False):
         q = np.sum(wave[ind-h_width:ind+h_width+1] - bck)
 
         if debug:  
-            print name, time
-            print name, ' pulse  ',     wave[ind-h_width:ind+h_width+1] - bck  
+            print(name, time)
+            print(name, ' pulse  ',     wave[ind-h_width:ind+h_width+1] - bck)  
         
         #  if pulse is too close to the edge approximate its time and width or if the sum of waveform too close to 0
         min_sum = 1.

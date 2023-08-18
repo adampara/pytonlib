@@ -5,6 +5,7 @@ Created on Tue Dec 18 08:59:25 2018
 
 @author: para
 """
+from __future__ import print_function
 from plot_histogram import plot_histogram
 
 def char_sipm(hist,fun='gaus',min_entries=1000,xl=40,xu=60,debug=False):
@@ -22,7 +23,7 @@ def char_sipm(hist,fun='gaus',min_entries=1000,xl=40,xu=60,debug=False):
     n_entries = hist.GetEntries()
     
     if n_entries<min_entries:
-        print name, 'Not enugh data  , nentries = ',n_entries, '  return defaults vaalues'
+        print(name, 'Not enugh data  , nentries = ',n_entries, '  return defaults vaalues')
     else:
         
         fit_res = hist.Fit(fun,'SQ0','',xl,xu) 
@@ -31,7 +32,7 @@ def char_sipm(hist,fun='gaus',min_entries=1000,xl=40,xu=60,debug=False):
             sigped =  fit_res.Parameter(2)
             
             if debug:
-                print name, 'Fit results ',fit_res
+                print(name, 'Fit results ',fit_res)
                 #plot_histogram(hist)
                 
             n_sig = 3
@@ -44,7 +45,7 @@ def char_sipm(hist,fun='gaus',min_entries=1000,xl=40,xu=60,debug=False):
             
             if debug:
                 
-                print name, 'Fit results ',ped,sigped,spe
+                print(name, 'Fit results ',ped,sigped,spe)
                 plot_histogram(hist)  
             
     return ped,sigped,spe

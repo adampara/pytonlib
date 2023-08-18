@@ -5,6 +5,7 @@ Created on Wed Dec 19 19:02:52 2018
 
 @author: para
 """
+from __future__ import print_function
 
 from find_peaks_rising import find_peaks_rising
 from single_pe_char import single_pe_char
@@ -20,7 +21,7 @@ def find_short_pulses(wf_corr_fin, pmt,  pe_front, pe_back, ntrigger, pulse_end,
     name = '--------> find_short_pulses: '
     
     if debug:
-        print name,'  ntrigger = ',ntrigger,'   pulse_end =', pulse_end
+        print(name,'  ntrigger = ',ntrigger,'   pulse_end =', pulse_end)
     #  look for narrow peaks before and after the peak            
     thresh = 1.5
     separation = 5
@@ -48,8 +49,8 @@ def find_short_pulses(wf_corr_fin, pmt,  pe_front, pe_back, ntrigger, pulse_end,
     pe_back[pmt] = (ind_peaks_post,charge_post,tstamp_post,twidth_post)
 
     if debug:
-        print name, 'pe_front', ind_peaks_pre
-        print name, '  pe bac ', ind_peaks_post
+        print(name, 'pe_front', ind_peaks_pre)
+        print(name, '  pe bac ', ind_peaks_post)
         plt.figure()
         plt.plot(wf_corr_fin)
         plt.plot(wf_corr_smooth)

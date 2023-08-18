@@ -12,6 +12,7 @@ combine short pulses
 
             #   short pulses structure  pe_set = (ind_peaks_pre,charge_pre,tstamp_pre,twidth_pre)
             #find_short_pulses(wf_corr_fin, pmt, event, pe_front, pe_back, ntrigger, pulse_end, nsmooth=5 ,debug=False)
+from builtins import zip
 def combine_short_pulses(short_p,count,pe_set):
 
 

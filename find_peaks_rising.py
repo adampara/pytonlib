@@ -6,6 +6,7 @@ Created on Mon Nov 12 09:18:27 2018
 @author: para
 """
 
+from builtins import range
 from detect_peaks import detect_peaks
 import numpy as np
 

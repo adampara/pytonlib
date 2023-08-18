@@ -5,7 +5,11 @@ Created on Wed Dec 19 12:34:33 2018
 
 @author: para
 """
+from __future__ import division
 
+from builtins import zip
+from builtins import range
+from past.utils import old_div
 import numpy as np
 from combine_waveforms import combine_waveforms
 
@@ -36,7 +40,7 @@ def collect_sipm_info(sipmwf, iev, nsipm, len_sipm, ped, spe, sipm_x, sipm_y, no
         if sipm in noisy :  continue
     
         nzi = np.nonzero(sipmwf[sipm][iev])[0]                 # indices on non-zero elements
-        nz = (sipmwf[sipm][iev][nzi] - ped[sipm])/spe[sipm]    # values of non-zero elements (in pe)
+        nz = old_div((sipmwf[sipm][iev][nzi] - ped[sipm]),spe[sipm])    # values of non-zero elements (in pe)
         
         xv = np.full(len(nzi),fill_value=sipm_x[sipm])
         yv = np.full(len(nzi),fill_value=sipm_y[sipm])
@@ -48,7 +52,7 @@ def collect_sipm_info(sipmwf, iev, nsipm, len_sipm, ped, spe, sipm_x, sipm_y, no
                 ts_y[t].append(y)
                 ts_e[t].append(e)
       
-        combine_waveforms(ev_sipm,nzi,(sipmwf[sipm][iev]-ped[sipm])/spe[sipm],thresh=0.5) #  collect contribution of each SiPM to the total waveforrm
+        combine_waveforms(ev_sipm,nzi,old_div((sipmwf[sipm][iev]-ped[sipm]),spe[sipm]),thresh=0.5) #  collect contribution of each SiPM to the total waveforrm
     
     for t in ts_x:
         ts_x[t] = np.asarray(ts_x[t])

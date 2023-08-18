@@ -5,6 +5,7 @@ Created on Mon Oct  2 11:25:00 2017
 print a log of addresses for each day
 @author: para
 """
+from __future__ import print_function
 import pickle
 import unicodedata
 
@@ -13,8 +14,8 @@ import unicodedata
 dir_file = '/Users/para/ondrive/download/Photos/directory_file'
 pict = pickle.load(open(dir_file,"rb"))
 
-for day in pict.keys():
-    print day
+for day in list(pict.keys()):
+    print(day)
 
     if day != None:
 #        if day != '2012:03:24':
@@ -37,13 +38,13 @@ for day in pict.keys():
 #         exit()
          
         for p in pict[day]:
-            print p
+            print(p)
 
             if start:
                 #   first picture trigger creation of the file
 
                 route_file = '/Users/para/ondrive/download/Photos/log/day_' + day + '.log'
-                print 'write a header, log file = ',route_file
+                print('write a header, log file = ',route_file)
                 f = open(route_file,'w')
                 f.write( """<!doctype html>
 <html>
@@ -73,4 +74,4 @@ for day in pict.keys():
                 
 
     if start:
-        print 'no geo information for day ',day
+        print('no geo information for day ',day)

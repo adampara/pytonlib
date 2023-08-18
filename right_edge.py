@@ -5,6 +5,8 @@ Created on Tue Dec  4 21:38:03 2018
 
 @author: para
 """
+from __future__ import print_function
+from builtins import range
 from smooth_wave import smooth_wave
 import matplotlib.pyplot as plt
 
@@ -34,7 +36,7 @@ def right_edge(wave, cut=200, cutb=30, nauxb=200, nauxe=5, reverse=True, debug=F
         
 
     if debug:
-        print name,' length of the waveform  ',nend, ' thrc = ',thrc,' thrb = ', thrb, 'nmax= ',nmax
+        print(name,' length of the waveform  ',nend, ' thrc = ',thrc,' thrb = ', thrb, 'nmax= ',nmax)
         
     return nmax
 
@@ -56,7 +58,7 @@ def right_edge_new(waveform,cut=100, cutb=20, nbelow= 2000, ntrigger=25000, nsmo
         next_pulse_beg = right_edge(wave[pulse_end:],cut=cut,reverse=False) + pulse_end 
 
     if debug:
-        print name,' pulse_beg = ',pulse_beg, 'pulse_end ',pulse_end, ' next_pulse_beg = ',next_pulse_beg
+        print(name,' pulse_beg = ',pulse_beg, 'pulse_end ',pulse_end, ' next_pulse_beg = ',next_pulse_beg)
         plt.figure()
         plt.plot(waveform)
         plt.plot(wave)
@@ -118,7 +120,7 @@ def right_edge_new_new(waveform,cut=50, cutb=20, nbelow= 2000, ntrigger=25000, n
                 pulse_beg = curr
                 high = True
  
-        if debug: print name, 'current pointer ',curr,'  value  ',val,'  found_beg ',found_beg,'  high = ',high,'  found_drop = ',found_drop, 'nlow ', nlow, ' keep_doing ', keep_doing
+        if debug: print(name, 'current pointer ',curr,'  value  ',val,'  found_beg ',found_beg,'  high = ',high,'  found_drop = ',found_drop, 'nlow ', nlow, ' keep_doing ', keep_doing)
 
     if pulse_beg > 0:
             
@@ -127,11 +129,11 @@ def right_edge_new_new(waveform,cut=50, cutb=20, nbelow= 2000, ntrigger=25000, n
         
     else:
         #   no pulse beginning found at the current threshold
-        print '  no ulse found with the threshold of ', cut, 'return pulse_end = 0'
+        print('  no ulse found with the threshold of ', cut, 'return pulse_end = 0')
         pulse_end = 0
         
     if debug:
-        print name,' pulse_beg = ',pulse_beg, 'pulse_end ',pulse_end
+        print(name,' pulse_beg = ',pulse_beg, 'pulse_end ',pulse_end)
         plt.figure()
         plt.plot(waveform)
         plt.plot(wave)      #  does not work properly with wave smoothed out only beyond triger position. Needs fixing

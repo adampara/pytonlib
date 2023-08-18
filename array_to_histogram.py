@@ -6,6 +6,7 @@ Created on Fri Nov 30 19:53:59 2018
 @author: para
 """
 
+from builtins import range
 from ROOT import TH1F
 from plot_histogram import plot_histogram
 
@@ -24,8 +25,9 @@ def array_to_histogram(ar, title = ' ', book=True, plot=False):
         hist = title
         
     for i in range(nbins):
-        hist.Fill(i,ar[i])
-
+        hist.SetBinContent(i+1,ar[i])
+        hist.SetBinError(i+1,0.)
+        
     if plot:        
         plot_histogram(hist)    
         hist.Delete()

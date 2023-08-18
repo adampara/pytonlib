@@ -5,6 +5,7 @@ Created on Tue Jan  2 05:24:26 2018
 
 @author: para
 """
+from builtins import range
 import numpy as np
 
 def random_three_vector(N):

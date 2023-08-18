@@ -5,6 +5,7 @@ Created on Wed Dec 19 17:17:52 2018
 
 @author: para
 """
+from __future__ import print_function
 
 from determine_pedestal import determine_pedestal
 from improve_pedestal import improve_pedestal
@@ -36,7 +37,7 @@ def process_raw_waveform(wave, pmt, iev, tau, lped, accept= 0.1, debug = False, 
 #
     ped = FFT_ped(wave[pmt][iev])    # invert the wavefprm, signals will be positive
     if debug:
-        print name, '  depestal value ',ped
+        print(name, '  depestal value ',ped)
     wave_fin = -(wave[pmt][iev] - ped)     
     if tim_lev > tim_lev_cut: check_time(name,'  FFT pedestal done ')  
     
@@ -53,11 +54,14 @@ def process_raw_waveform_v2(wave, tau, lped, accept= 0.1, S2_beg=640, S2_end=670
     use external timing info from SiPM
     if baseline shift greater than 'accept' try to corerct the wavefprm assuming saturation
     if S2 too close to the beginning use the entire waveform to determine the pedestal
+    tim_level > tim_leve_cut is for the timing studies.
     
     """
  
     name = '        ---->  process_raw_waveform: '
     tim_lev_cut = 1
+
+    #    determine the pedestal value
          
     if tim_lev > tim_lev_cut: check_time(name,'  FFT pedestal  ')  
     #   if S2 pulse too close to the beginning of the waveform try to use the entire waveform to determinethe pedestal
@@ -65,6 +69,9 @@ def process_raw_waveform_v2(wave, tau, lped, accept= 0.1, S2_beg=640, S2_end=670
         ped = FFT_ped(wave[0:S2_beg]) 
     else:
         ped = FFT_ped(wave)
+        
+    #    invert the polarity
+    
     wave_fin = -(wave - ped)    # invert the waveform, signals will be positive
     if tim_lev > tim_lev_cut: check_time(name,'  FFT pedestal done ')  
 

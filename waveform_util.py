@@ -5,7 +5,13 @@ Created on Mon Jan 16 18:03:29 2017
 
 @author: para
 """
+from __future__ import division
+from __future__ import print_function
 
+from builtins import next
+from builtins import str
+from builtins import range
+from past.utils import old_div
 import os 
 from int_input import get_int, get_ints
 from ROOT import TCanvas, TH1F, TF1, TFile
@@ -19,7 +25,7 @@ def sensitivity(lines):
 
     nlines = len(lines)
     lrec = 11
-    nframe = nlines/lrec
+    nframe = old_div(nlines,lrec)
     n_max = 10
 
     precision = 3   # precision of amplitude values
@@ -43,11 +49,11 @@ def select_file(datedir):
     datedirList = next(os.walk(datedir))[1]
     i = 0              
     for ddir in datedirList:
-        print i,ddir
+        print(i,ddir)
         i +=1
     
     idate = get_int('select date   ---> ')
-    print 'anayze data taken on  ',datedirList[idate]
+    print('anayze data taken on  ',datedirList[idate])
     
     seldatedir = datedir+datedirList[idate] + '/'
      
@@ -56,14 +62,14 @@ def select_file(datedir):
     tempdirList = next(os.walk(seldatedir))[1]
     i = 0              
     for tdir in tempdirList:
-        print i,tdir
+        print(i,tdir)
         i +=1
     
     itemp = get_int('select temperature   ---> ')
-    print 'analyze data taken at temperature',tempdirList[itemp]
+    print('analyze data taken at temperature',tempdirList[itemp])
     
     seltempdir = seldatedir + tempdirList[itemp] + '/'
-    print seltempdir
+    print(seltempdir)
     
     filel = next(os.walk(seltempdir))[2]
     fdat = []
@@ -78,14 +84,14 @@ def select_file(datedir):
     
     i = 0
     for f in fdat:
-        print i, f
+        print(i, f)
         i+=1
     
     ifile = get_int('select file   ---> ')
         
-    print '  analyze file ',fdat[ifile]
+    print('  analyze file ',fdat[ifile])
     file = seltempdir + fdat[ifile]   
-    print file
+    print(file)
     return file
     
 def parse(lines, sens):
@@ -127,7 +133,7 @@ def parse(lines, sens):
         lin_rec = i % nrec
 
         if i < 10:
-            print i, '  ', lines[j]
+            print(i, '  ', lines[j])
         if i % nrec == 0:
 
             wf = lines[j].split()[1]    # waveform number
@@ -208,8 +214,8 @@ def parse(lines, sens):
     h_val.Delete()
 
     if debug:
-        print 'length of the waveform = ',len(wform)
-        print 'number of amplitude values ', len(ampl)
+        print('length of the waveform = ',len(wform))
+        print('number of amplitude values ', len(ampl))
     del f1
     del h_val
 

@@ -5,6 +5,7 @@ Created on Thu Nov 29 21:43:44 2018
 
 @author: para
 """
+from __future__ import print_function
 
 from ROOT import TH1F
 import matplotlib.pyplot as plt
@@ -21,7 +22,7 @@ def determine_pedestal(wave, debug=False, title=' '):
         plt.plot(wave)
         plt.title(' determine_pedestal: waveform'+title )
         plt.show()
-        print ' sample ',wave[0:10]
+        print(' sample ',wave[0:10])
         
     occurances = np.bincount(wave)
         
@@ -36,7 +37,7 @@ def determine_pedestal(wave, debug=False, title=' '):
     fit_res = values.Fit('gaus','SQ0','',max_pos-5.,max_pos+5)
 
     if debug:
-        print 'determine pedestal, pedestal  ', fit_res.Parameter(1)        
+        print('determine pedestal, pedestal  ', fit_res.Parameter(1))        
         plot_histogram(values)
         
     values.Delete()

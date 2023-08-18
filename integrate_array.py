@@ -6,6 +6,7 @@ Created on Thu Nov 29 22:26:03 2018
 @author: para
 """
 
+from builtins import range
 import numpy as np
 
 def integrate_array(ar):

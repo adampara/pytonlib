@@ -5,7 +5,10 @@ Created on Wed Jan 18 20:16:35 2017
 
 @author: para
 """
+from __future__ import print_function
 
+from builtins import str
+from builtins import range
 import numpy as np
 
 __author__ = "Marcos Duarte, https://github.com/demotu/BMC"

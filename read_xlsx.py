@@ -5,6 +5,7 @@ Created on Mon Sep 25 10:03:29 2017
 
 @author: para
 """
+from __future__ import print_function
 
 
 def readXlsx( fileName, **args ):
@@ -73,4 +74,4 @@ def readXlsx( fileName, **args ):
 
 if __name__ == "__main__":
     #print readXlsx( "/Users/para/Documents/SpaceX.xlsx")
-    print readXlsx( "/Users/para/DCR/S13360-3050CS.xlsx", sheet = 14, header = True)
+    print(readXlsx( "/Users/para/DCR/S13360-3050CS.xlsx", sheet = 14, header = True))

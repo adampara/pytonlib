@@ -5,6 +5,8 @@ Created on Sun Oct  1 22:19:16 2017
 print address, disable pickle (Oct 5,2017)
 @author: para
 """
+from __future__ import print_function
+from builtins import str
 import os
 from exifread.tags import DEFAULT_STOP_TAG, FIELD_TYPES
 from exifread import process_file, exif_log, __version__
@@ -74,7 +76,7 @@ numb = 0
 #pict = {}    # Oct 6 2017   make the directory local to a directory file
 
 for path, subdirs, files in os.walk('/Users/para/ondrive/download/Photos_old/'):
-   print ' analyze ',path
+   print(' analyze ',path)
    pict = {}
    dir_file = path + '/directory_file'
    if os.path.isfile(dir_file):
@@ -94,7 +96,7 @@ for path, subdirs, files in os.walk('/Users/para/ondrive/download/Photos_old/'):
          address = None
          
          if lat and lon:
-             print filename, lat,lon
+             print(filename, lat,lon)
              rev = str(lat) + ', ' + str(lon)
              try:
                  location = geolocator.reverse(rev,language='en')
@@ -104,39 +106,39 @@ for path, subdirs, files in os.walk('/Users/para/ondrive/download/Photos_old/'):
 #                 gs = goslate.Goslate()
 #                 address = gs.translate(addre,'en')
 
-                 print address
+                 print(address)
              except:
                  address = None
-                 print ' did not get an adddress for location',rev
+                 print(' did not get an adddress for location',rev)
                      
              time.sleep(1.)
 #         for i in data.keys():
 #             print i
-         if 'EXIF DateTimeOriginal' in data.keys():
+         if 'EXIF DateTimeOriginal' in list(data.keys()):
              date =  data['EXIF DateTimeOriginal'].values + ' ' + str(numb)
              day = date.split()[0]
          else:
              date = None
              day = None
          #print day
-         if 'EXIF ExifImageLength' in data.keys():
+         if 'EXIF ExifImageLength' in list(data.keys()):
              length = data['EXIF ExifImageLength'].values[0]
          else:
              length = None
-         if 'EXIF ExifImageWidth' in data.keys():
+         if 'EXIF ExifImageWidth' in list(data.keys()):
              width =  data['EXIF ExifImageWidth'].values[0]
          else:
              width = None
     
-         if 'Image Model' in data.keys():
+         if 'Image Model' in list(data.keys()):
              camera =  data['Image Model'].values
          else:
              camera = None
          
          #print path, filename, date, camera, length, width, lat, lon, address
          
-         if day not in pict.keys():
-             print 'new  day ', day
+         if day not in list(pict.keys()):
+             print('new  day ', day)
              pict[day] = []
             
          pict[day].append((path, filename, date, camera, length, width, lat, lon, address))

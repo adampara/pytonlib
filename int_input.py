@@ -4,19 +4,22 @@ Created on Thu Dec 29 17:13:03 2016
 
 @author: para
 """
+from __future__ import print_function
 
 
+from builtins import input
+from builtins import range
 def get_string(prompt):
     """
     get a string from a console
     """
     read = True
     while read:
-        value = raw_input(prompt)
+        value = input(prompt)
         if len(value) > 0:
             read = False
         else:
-            print 'enter value'
+            print('enter value')
     return value
 
 
@@ -26,17 +29,17 @@ def get_int(prompt):
     """
     read = True
     while read:
-        value = raw_input(prompt)
+        value = input(prompt)
         if len(value) > 0:
             try:
                 valint = int(value)
                 read = False
             except ValueError:
-                print 'enter integer value'
+                print('enter integer value')
                 pass  # it was a string, not an int.
 
         else:
-            print 'enter integer value'
+            print('enter integer value')
 
     return valint
 
@@ -47,17 +50,17 @@ def get_float(prompt):
     """
     read = True
     while read:
-        value = raw_input(prompt)
+        value = input(prompt)
         if len(value) > 0:
             try:
                 valfloat = float(value)
                 read = False
             except ValueError:
-                print 'enter float value'
+                print('enter float value')
                 pass  # it was a string, not a float.
 
         else:
-            print 'enter a float value'
+            print('enter a float value')
 
     return valfloat
 
@@ -69,7 +72,7 @@ def get_floats(prompt, nfloats):
     read = True
     floats = []
     while read:
-        value = raw_input(prompt)
+        value = input(prompt)
         if len(value) > 0:
             tokens = value.split()
             if len(tokens) == nfloats:
@@ -80,11 +83,11 @@ def get_floats(prompt, nfloats):
                         if i == nfloats - 1:
                             read = False
                     except ValueError:
-                        print 'enter float value'
+                        print('enter float value')
                         pass  # it was a string, not a float.
 
         else:
-            print 'enter ',nfloats, ' float value(s)'
+            print('enter ',nfloats, ' float value(s)')
 
     return floats
 
@@ -95,7 +98,7 @@ def get_ints(prompt, nints):
     read = True
     ints = []
     while read:
-        value = raw_input(prompt)
+        value = input(prompt)
         if len(value) > 0:
             tokens = value.split()
             if len(tokens) == nints:
@@ -106,10 +109,10 @@ def get_ints(prompt, nints):
                         if i == nints - 1:
                             read = False
                     except ValueError:
-                        print 'enter integer  value'
+                        print('enter integer  value')
                         pass  # it was a string, not an int.
 
         else:
-            print 'enter ',nints, ' integer value(s)'
+            print('enter ',nints, ' integer value(s)')
 
     return ints

@@ -4,7 +4,9 @@ Created on Fri Jan  6 14:30:43 2017
 
 @author: para
 """
+from __future__ import print_function
 
+from builtins import range
 from bitstring import BitArray
 import numpy as np
 
@@ -32,7 +34,7 @@ def read_SSP(dfile, hex=True, maxev = 999999999, deb=-1, get_header=False):
     
     data_lines =  f.read().splitlines()
     if debug:
-        print 'data file length = ', len(data_lines)
+        print('data file length = ', len(data_lines))
         
     lines_to_read = min(len(data_lines),2024*(maxev+1))
     lines = np.empty(lines_to_read)    #   array to hold the inut file lines
@@ -50,7 +52,7 @@ def read_SSP(dfile, hex=True, maxev = 999999999, deb=-1, get_header=False):
                 if line == marker_dec:
                     hex = False
                 if hex == 'test':
-                    print 'incorrect header, cannot determine file encoding  ',line
+                    print('incorrect header, cannot determine file encoding  ',line)
                     exit()
             if hex:
                 ln = int(line,16)
@@ -58,7 +60,7 @@ def read_SSP(dfile, hex=True, maxev = 999999999, deb=-1, get_header=False):
                 if line.isdigit():      # protect agains I/O error, take previous number
                     ln = int(line)  
                 else:
-                    print 'bad line ',line_number, '  data  ',line, '  replaced by ',lines[i-1] 
+                    print('bad line ',line_number, '  data  ',line, '  replaced by ',lines[i-1]) 
                     ln = lines[i-1]    #  take the previous line as the best giess to replace the incorrect value
 
             lines[i] = ln    #  assume the the previous line was a valid number, if the current one is not
@@ -66,7 +68,7 @@ def read_SSP(dfile, hex=True, maxev = 999999999, deb=-1, get_header=False):
     nlines = len(lines)
     
     if debug:
-        print 'read_SSP: read file ',dfile,'  Number of lines = ',len(lines)    
+        print('read_SSP: read file ',dfile,'  Number of lines = ',len(lines))    
 
     nhead = 24      # length of header (in16 bit words)
     nsh = 2**16     # factor to shift by 16 bits
@@ -79,9 +81,9 @@ def read_SSP(dfile, hex=True, maxev = 999999999, deb=-1, get_header=False):
     while loop:
 
         if iev % 100 == 1:
-            print 'reading event ',iev,'  pointer  ', pointer
+            print('reading event ',iev,'  pointer  ', pointer)
         if lines[pointer] != marker or lines[pointer+1] != marker :   #   check the waveform record sentinel
-            print 'read SSP, warning: event ',iev, 'incorrect record', lines[pointer:pointer+10]
+            print('read SSP, warning: event ',iev, 'incorrect record', lines[pointer:pointer+10])
             exit()
             
         head = []   # assemble the header, Manual Version 2.06
@@ -96,7 +98,7 @@ def read_SSP(dfile, hex=True, maxev = 999999999, deb=-1, get_header=False):
         ch = BitArray(uint=head[2], length=32)[12:16].uint   # chanel number
 
         if debug:
-            print '  read_SSP , event number ', iev,' pointer  ',pointer, 'record length', rl, 2*rl+pointer, 'file length ',len(lines)
+            print('  read_SSP , event number ', iev,' pointer  ',pointer, 'record length', rl, 2*rl+pointer, 'file length ',len(lines))
         
         ev_header = (ch)  # if no header requested, header consists of the channel number only 
 
@@ -147,7 +149,7 @@ def read_SSP(dfile, hex=True, maxev = 999999999, deb=-1, get_header=False):
         old_pointer = pointer
         pointer += 2*rl    #  pointer to nex event
         if debug:
-            print 'check pointers', old_pointer, rl, pointer
+            print('check pointers', old_pointer, rl, pointer)
 
         if pointer >= len(lines)-1:   # more daata exist?
             loop = False
@@ -156,12 +158,12 @@ def read_SSP(dfile, hex=True, maxev = 999999999, deb=-1, get_header=False):
         if loop:
             if ( lines[pointer] != marker or lines[pointer+1] != marker  )  :
 
-                print 'read_SSP, check structure, old pointer ', old_pointer, ' old  ',lines[old_pointer:old_pointer+10]
-                print 'read_SSP, check structure, new/wrong pointer ', pointer, ' new  ',lines[pointer:pointer+10]
+                print('read_SSP, check structure, old pointer ', old_pointer, ' old  ',lines[old_pointer:old_pointer+10])
+                print('read_SSP, check structure, new/wrong pointer ', pointer, ' new  ',lines[pointer:pointer+10])
                 for il in range(old_pointer+2,nlines):    # find the beginning of new event
                     if lines[il] == marker and lines[il+1]  == marker: break
                 pointer = il    # re-adjusted pointer to the next event
-                print 'read_SSP, check structure, adjusted pointer ', pointer, lines[pointer:pointer+10]
+                print('read_SSP, check structure, adjusted pointer ', pointer, lines[pointer:pointer+10])
                 wave = []  # empty waveform for incomplete evets
          
         events.append((ev_header, np.array(wave)))     

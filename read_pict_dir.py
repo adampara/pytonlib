@@ -5,6 +5,8 @@ Created on Mon Oct  2 11:25:00 2017
 
 @author: para
 """
+from __future__ import print_function
+from builtins import str
 import pickle
 
 
@@ -80,8 +82,8 @@ def end_st():
 dir_file = '/Users/para/ondrive/download/Photos/directory_file'
 pict = pickle.load(open(dir_file,"rb"))
 
-for day in pict.keys():
-    print day
+for day in list(pict.keys()):
+    print(day)
 
     if day != None:
 #        if day != '2012:03:24':
@@ -90,14 +92,14 @@ for day in pict.keys():
         start = True
         
         for p in pict[day]:
-            print p
+            print(p)
             lat = p[6]
             lng = p[7]
             if p[6] != None and p[7] != None:
                 
                 if start:
                     #   first picture with GPS information trigger creation of the file
-                    print 'write a header, lat,lng', lat, lng
+                    print('write a header, lat,lng', lat, lng)
                     route_file = '/Users/para/ondrive/download/Photos/html/day_' + day + '.html'
                     f = open(route_file,'w')
                     start = False  
@@ -109,7 +111,7 @@ for day in pict.keys():
                     
 
     if start:
-        print 'no geo information for day ',day
+        print('no geo information for day ',day)
     else:
         end_string = end_st()
         f.write(end_string)
